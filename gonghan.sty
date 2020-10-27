@@ -1,13 +1,16 @@
 
-\usepackage{CJK}
-\usepackage{xcolor}
-\usepackage{fancyhdr}
-\usepackage{lipsum}
-\usepackage{ifthen}
-\usepackage{lastpage}
-\usepackage[left]{lineno}
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{gonghan}
+\RequirePackage{CJK}
+\RequirePackage{xcolor}
+\RequirePackage{fancyhdr}
+\RequirePackage{lipsum}
+\RequirePackage{ifthen}
+\RequirePackage{lastpage}
+\RequirePackage[left]{lineno}
+\RequirePackage{needspace}
 %设置页边距
-\usepackage{geometry}
+\RequirePackage{geometry}
 \geometry{a4paper,
  total={170mm,257mm},
  left=28mm,
@@ -29,24 +32,24 @@
 \setCJKfamilyfont{hei}{Hei}                     %楷体GB2312 
 \newcommand{\hei}{\CJKfamily{hei}}   
 
-\usepackage{fontspec}
+\RequirePackage{fontspec}
 \setCJKmainfont{仿宋_GB2312}
 
 %设置字号
-\usepackage{stix}
+\RequirePackage{stix}
 \newcommand{\yihao}{\fontsize{36.9pt}{\baselineskip}\selectfont} %标题
 \newcommand{\erhao}{\fontsize{22pt}{\baselineskip}\selectfont}      %二号
 \newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  %小二号
 \newcommand{\sanhao}{\fontsize{16pt}{\baselineskip}\selectfont}  %三号
 \newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}%四号
-\usepackage{type1cm}
+\RequirePackage{type1cm}
 \setlength{\parindent}{2em}
 \linespread{1.43}%国军标要求22行每行28字
 
 %设置页头和页尾
 \newlength{\footlength}
 \setlength{\footlength}{10pt}
-\usepackage{amsmath,fancyhdr}
+\RequirePackage{amsmath,fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}%清空head foot
 \renewcommand{\headrulewidth}{0pt}
@@ -72,31 +75,36 @@
 
 
 \newcommand{\fujian}[1]{\par \vspace{1em}
-\hangindent=2.6\parindent
-附件：1、《管理规定也有公共卫生等方面的丰富专业知识，以及将这些专业知识转化为新疗法和预防措》#1
+\hangindent=2.5\parindent
+附件：#1
 }
  
  %发文单位
+ \newcommand{\rqi}[3]{ 
+ 	\par \vspace{3em}
+       \indent\mbox{}\hspace{13em}\parbox{3cm}{
+       \centerline{ #1} 
+       \centerline{2020年#2 月#3日}
+       }}
+       
 \newcommand{\danwei}[3]{
-%\ifthenelse {\isodd{\value{page}} \or \lengthtest{therest < \bottomheight}}
 	\ifthenelse {\isodd{\value{page}}}
-       {\newpage %奇数页
-       \vspace{3em} （此页无正文）
-       \vspace{3em} \\ 
-       \mbox{}\hspace{10em}
-       \centerline{ #1} \\
-       \centerline{2020年#2 月#3日}
+       {\mbox{}\newpage %奇数页
+       \par  \vspace{3em} （此页无正文）\\
+      \rqi{#1}{#2}{#3}
        }{
-       \ifthenelse{\inputlineno >16}{
-       \newpage       %偶数页空间不够
-       \newpage
-       \vspace{3em} （此页无正文）
-       \centerline{ #1} \\
-       \centerline{2020年#2 月#3日}
+       \needspace{6\baselineskip}{
+       \par
+       \ifthenelse{\isodd{\value{page}}}{
+       \mbox{}\thispagestyle{empty}
+       \newpage  %偶数页空间不够
+       \vspace{3em} （此页无正文）\\ 
+        \rqi{#1}{#2}{#3}
+	}{
+	\rqi{#1}{#2}{#3}
+	}}
+       
 	}
-	\vspace{3em} \\ 
-       \centerline{ #1} \\
-       \centerline{2020年#2 月#3日}
 }
 
 \newcommand{\houji}[5]{
@@ -106,7 +114,7 @@
 \rule{\linewidth}{0.25mm}\\[-9pt]
 {\sihao \fs 承办单位：#3 \hfill 经办人：#4 \hfill 电话：#5\\[-23pt]}
 \rule{\linewidth}{0.35mm}}
-  
+\endinput  
 
 
 
